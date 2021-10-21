@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+np.random.seed(1)
 
 def Sigmoid(x):
     ''' It returns 1/(1+exp(-x)). where the values lies between zero and one '''
