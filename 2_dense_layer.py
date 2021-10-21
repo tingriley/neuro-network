@@ -8,7 +8,6 @@ inputs = np.array([[1,2,3,4],
 class Dense_Layer:
 	def __init__(self, n_inputs, n_neurons):
 		self.biases = np.zeros((1, n_neurons))
-		print(self.biases)
 		self.weights = np.random.randn(n_inputs, n_neurons)
 	def forward(self, inputs):
 		self.output = np.dot(inputs, self.weights) + self.biases
