@@ -19,7 +19,6 @@ class Activation_ReLU:
 		self.output = np.maximum(0, self.inputs)
 
 
-
 layer1 = Dense_Layer(4, 3)
 layer1.forward(inputs)
 

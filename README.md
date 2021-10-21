@@ -3,5 +3,5 @@
    2. Dense layer
    3. Activation function plot
    4. Activation functions
-   5. Network Error
-   6. Optimization
+   5. Loss
+   6. Backpropagation
