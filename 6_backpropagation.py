@@ -40,6 +40,7 @@ class Activation_Sigmoid:
 class Loss:
 	def forward(self, y_pred, y_true):
 		self.output = np.subtract(y_true , y_pred)
+		self.cost = 1/2*(self.output)*(self.output)
 	def backward(self, dinputs):
 		self.dinputs = dinputs
 
@@ -52,6 +53,8 @@ for iteration in range(1000):
     layer1.forward(inputs)
     activation1.forward(layer1.output)
     loss.forward(activation1.output, y_true)
+    print("cost")
+    print(loss.cost)
     loss.backward(loss.output)
     activation1.backward(loss.dinputs)
     layer1.backward(activation1.dinputs)

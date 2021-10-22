@@ -5,3 +5,4 @@
    4. Activation functions
    5. Loss
    6. Backpropagation
+   7. XOR example with two layers
