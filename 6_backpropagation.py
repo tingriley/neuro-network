@@ -23,6 +23,9 @@ class Activation_ReLU:
 	def forward(self, inputs):
 		self.inputs = inputs
 		self.output = np.maximum(0, self.inputs)
+	def forward(self, dvalues):
+		self.dinputs = dvalues.copy()
+		self.dinputs[self.inputs <= 0] = 0
 
 
 class Activation_Sigmoid:
@@ -41,11 +44,7 @@ class Loss:
 		self.dinputs = dinputs
 
 layer1 = Dense_Layer(3, 1)
-
-
 activation1 = Activation_Sigmoid()
-
-
 loss = Loss()
 
 
