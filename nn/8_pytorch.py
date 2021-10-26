@@ -1,11 +1,13 @@
 import numpy as np
+import torch
+import torch.nn as nn
+
 np.random.seed(1)
  
 inputs = np.array([[1,0,1], 
 					[0,1,0], 
 					[1,1,1],
 					[1,0,0]])
-
 
 y_true = np.array([[1,0,1,0]]).T
 
@@ -19,36 +21,20 @@ class Dense_Layer:
 	def backward(self, dvalues):
 		self.dweights = np.dot(self.inputs.T, dvalues)
 
-'''class Activation_ReLU:
-	def forward(self, inputs):
-		self.inputs = inputs
-		self.output = np.maximum(0, self.inputs)
-	def forward(self, dvalues):
-		self.dinputs = dvalues.copy()
-		self.dinputs[self.inputs <= 0] = 0'''
-
-
-class Activation_Sigmoid:
-	def forward(self, inputs):
-		self.inputs = inputs
-		self.output = 1/(1+np.exp(-1*inputs))
-	def backward(self, dvalues):
-		sigmoid = self.output
-		d_sigmoid = (sigmoid)*(1-sigmoid)
-		self.dinputs = np.multiply(dvalues, d_sigmoid)
-
-class Loss:
-	def forward(self, y_pred, y_true):
-		self.output = np.subtract(y_true , y_pred)
-		self.cost = 1/2*(self.output)*(self.output)
-	def backward(self, dinputs):
-		self.dinputs = dinputs
-
 layer1 = Dense_Layer(3, 1)
-activation1 = Activation_Sigmoid()
-loss = Loss()
+layer1.forward(inputs)
+print(f'layer1.output\n {layer1.output}\n')
+
+z = torch.from_numpy(layer1.output)
+z.requires_grad_(True)
+activation1 = torch.sigmoid(z)
+print(f'activation1\n {activation1}\n')
+
+ds = activation1.backward(z)
+print(ds)
 
 
+'''
 for iteration in range(1000):
     layer1.forward(inputs)
     activation1.forward(layer1.output)
@@ -67,3 +53,4 @@ print("Considering new situation: [0,1,1]")
 newZ = np.dot(np.array([0,1,1]), layer1.weights)
 activationOutput = 1/(1+np.exp(-newZ))
 print(activationOutput)
+'''

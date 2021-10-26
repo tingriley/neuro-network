@@ -45,13 +45,19 @@ class Loss:
 		self.dinputs = dinputs
 
 layer1 = Dense_Layer(3, 1)
+
 activation1 = Activation_Sigmoid()
 loss = Loss()
 
 
-for iteration in range(1000):
+for iteration in range(1):
     layer1.forward(inputs)
+    print(layer1.output)
     activation1.forward(layer1.output)
+
+    print(f'activation1:\n {activation1.output}')
+
+
     loss.forward(activation1.output, y_true)
     print("cost")
     print(loss.cost)
