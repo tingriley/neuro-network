@@ -1,59 +1,51 @@
 import torch
+import torch.nn as nn
 import numpy as np
+from sklearn import datasets
+import matplotlib.pyplot as plt
 
-data = [[1, 2], [3, 4]]
-x_data = torch.tensor(data)
+# 0) Prepare data
+X_numpy, y_numpy = datasets.make_regression(n_samples=100, n_features=1, noise=20, random_state=4)
 
-np_array = np.array(data)
-x_np = torch.from_numpy(np_array)
+# cast to float Tensor
+X = torch.from_numpy(X_numpy.astype(np.float32))
+y = torch.from_numpy(y_numpy.astype(np.float32))
+y = y.view(y.shape[0], 1)
 
-# From another tensor:
-'''
-x_ones = torch.ones_like(x_data) # retains the properties of x_data
-print(f"Ones Tensor: \n {x_ones} \n")
+n_samples, n_features = X.shape
 
-x_rand = torch.rand_like(x_data, dtype=torch.float) # overrides the datatype of x_data
-print(f"Random Tensor: \n {x_rand} \n")
-'''
+# 1) Model
+# Linear model f = wx + b
+input_size = n_features
+output_size = 1
+model = nn.Linear(input_size, output_size)
 
-# With random or constant values:
-shape = (2, 3,)
-rand_tensor = torch.rand(shape)
-ones_tensor = torch.ones(shape)
-zeros_tensor = torch.zeros(shape)
+# 2) Loss and optimizer
+learning_rate = 0.01
 
-print(f"Random Tensor: \n {rand_tensor} \n")
-print(f"Ones Tensor: \n {ones_tensor} \n")
-print(f"Zeros Tensor: \n {zeros_tensor}")
+criterion = nn.MSELoss()
+optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate)  
 
-# Tensor Atrributes
+# 3) Training loop
+num_epochs = 100
+for epoch in range(num_epochs):
+    # Forward pass and loss
+    y_predicted = model(X)
+    loss = criterion(y_predicted, y)
+    
+    # Backward pass and update
+    loss.backward()
+    optimizer.step()
 
-tensor = torch.rand(3, 4)
+    # zero grad before new step
+    optimizer.zero_grad()
 
-print(f"Shape of tensor: {tensor.shape}")
-print(f"Datatype of tensor: {tensor.dtype}")
-print(f"Device tensor is stored on: {tensor.device}")
+    if (epoch+1) % 10 == 0:
+        print(f'epoch: {epoch+1}, loss = {loss.item():.4f}')
 
-if torch.cuda.is_available():
-  tensor = tensor.to('cuda')
-  print(f"Device tensor is stored on: {tensor.device}")
+# Plot
+predicted = model(X).detach().numpy()
 
-
-tensor = torch.ones(4, 4)
-tensor[:,1] = 0
-print(tensor)
-
-t1 = torch.cat([tensor, tensor, tensor], dim=1)
-print(t1)
-
-
-t = torch.from_numpy(np.array([[1,2],[3,4]]))
-t2 = torch.cat([t, t, t], dim=1)
-print(t2)
-
-
-# Tensor to NumPy array
-t = torch.ones(10)
-print(f"t: {t}")
-n = t.numpy()
-print(f"n: {n}")
+plt.plot(X_numpy, y_numpy, 'ro')
+plt.plot(X_numpy, predicted, 'b')
+plt.show()
