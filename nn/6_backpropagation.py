@@ -19,6 +19,7 @@ class Dense_Layer:
 		self.output = (np.dot(inputs, self.weights) + self.biases)
 	def backward(self, dvalues):
 		self.dweights = np.dot(self.inputs.T, dvalues)
+		self.dinputs = np.dot(dvalues, self.weights.T)
 
 
 
