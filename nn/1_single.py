@@ -7,9 +7,7 @@ weights = np.array([0.2, 0.8, -0.5])
 bias = 2
 
 output = np.dot(inputs, weights.T) + bias
-print("Example of single neuron")
-print(output)
-print("")
+print(f'Example of single neuron\n{output}\n')
 
 
 ''' a layer of neurons '''

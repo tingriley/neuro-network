@@ -28,10 +28,11 @@ def Plot(title, name):
 		plt.plot(x, Softmax(x))
 	plt.axis('tight')
 	plt.title(title)
-	plt.savefig(name + '.png')
+	#plt.savefig(name + '.png')
+	plt.show()
 	plt.close()
 
 Plot('Activation Function: ReLU', 'ReLU')
-Plot('Activation Function: Sigmoid', 'Sigmoid')
-Plot('Activation Function: Softmax', 'Softmax')
+#Plot('Activation Function: Sigmoid', 'Sigmoid')
+#Plot('Activation Function: Softmax', 'Softmax')
 

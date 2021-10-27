@@ -1,13 +1,14 @@
 import numpy as np
 np.random.seed(1)
- 
+# input data 
 inputs = np.array([[1,0,1], 
 					[0,1,0], 
 					[1,1,1],
 					[1,0,0]])
 
-
+# output data
 y_true = np.array([[1,0,1,0]]).T
+
 
 class Dense_Layer:
 	def __init__(self, n_inputs, n_neurons):
@@ -19,15 +20,9 @@ class Dense_Layer:
 	def backward(self, dvalues):
 		self.dweights = np.dot(self.inputs.T, dvalues)
 
-'''class Activation_ReLU:
-	def forward(self, inputs):
-		self.inputs = inputs
-		self.output = np.maximum(0, self.inputs)
-	def forward(self, dvalues):
-		self.dinputs = dvalues.copy()
-		self.dinputs[self.inputs <= 0] = 0'''
 
 
+# activation function
 class Activation_Sigmoid:
 	def forward(self, inputs):
 		self.inputs = inputs
@@ -37,28 +32,31 @@ class Activation_Sigmoid:
 		d_sigmoid = (sigmoid)*(1-sigmoid)
 		self.dinputs = np.multiply(dvalues, d_sigmoid)
 
+# loss
 class Loss:
 	def forward(self, y_pred, y_true):
 		self.output = np.subtract(y_true , y_pred)
 		self.cost = 1/2*(self.output)*(self.output)
-	def backward(self, dinputs):
-		self.dinputs = dinputs
+	def backward(self):
+		self.dinputs = -1*self.output # (y_pred - y_true)
 
 layer1 = Dense_Layer(3, 1)
 activation1 = Activation_Sigmoid()
 loss = Loss()
 
-
-for iteration in range(1000):
+# update and optimizer
+for i in range(1000):
     layer1.forward(inputs)
     activation1.forward(layer1.output)
     loss.forward(activation1.output, y_true)
-    print("cost")
-    print(loss.cost)
-    loss.backward(loss.output)
+   
+    if(i%100==0):
+        print(f'[{i}] cost\n{loss.cost}')
+
+    loss.backward()
     activation1.backward(loss.dinputs)
     layer1.backward(activation1.dinputs)
-    layer1.weights += layer1.dweights
+    layer1.weights -= layer1.dweights
 
 print("New synaptic weights after training: ")
 print(layer1.weights)
@@ -67,3 +65,14 @@ print("Considering new situation: [0,1,1]")
 newZ = np.dot(np.array([0,1,1]), layer1.weights)
 activationOutput = 1/(1+np.exp(-newZ))
 print(activationOutput)
+
+
+
+
+'''class Activation_ReLU:
+	def forward(self, inputs):
+		self.inputs = inputs
+		self.output = np.maximum(0, self.inputs)
+	def forward(self, dvalues):
+		self.dinputs = dvalues.copy()
+		self.dinputs[self.inputs <= 0] = 0'''
