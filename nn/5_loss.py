@@ -6,7 +6,6 @@ inputs = np.array([[1,0,1],
 					[1,1,1],
 					[1,0,0]])
 
-
 y_true = np.array([[1,0,1,0]]).T
 
 class Dense_Layer:
@@ -18,21 +17,15 @@ class Dense_Layer:
 		self.output = (np.dot(inputs, self.weights) + self.biases)
 
 
-class Activation_ReLU:
-	def forward(self, inputs):
-		self.inputs = inputs
-		self.output = np.maximum(0, self.inputs)
-
-
 class Activation_Sigmoid:
 	def forward(self, inputs):
 		self.inputs = inputs
 		self.output = 1/(1+np.exp(-1*inputs))
 
-
 class Loss:
 	def forward(self, y_pred, y_true):
 		self.output = np.subtract(y_true , y_pred)
+		self.cost = 1/2*(self.output)*(self.output)
 
 layer1 = Dense_Layer(3, 1)
 layer1.forward(inputs)
@@ -41,6 +34,4 @@ activation1.forward(layer1.output)
 loss = Loss()
 loss.forward(activation1.output, y_true)
 
-print(loss.output)
-
-
+print(f'loss:\n{loss.cost}\n')

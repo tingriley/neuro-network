@@ -1,5 +1,6 @@
-                                                                                                                                                                                                                                                                                                                                                                                  import numpy as np
+import numpy as np
 np.random.seed(1)
+
 epochs = 1000           # Number of iterations
 inputLayerSize, hiddenLayerSize, outputLayerSize = 2, 3, 1
  

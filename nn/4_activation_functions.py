@@ -18,16 +18,25 @@ class Activation_ReLU:
 		self.inputs = inputs
 		self.output = np.maximum(0, self.inputs)
 
+class Activation_Sigmoid:
+	def forward(self, inputs):
+		self.inputs = inputs
+		self.output = 1/(1+np.exp(-1*inputs))
+	def backward(self, dvalues):
+		sigmoid = self.output
+		d_sigmoid = (sigmoid)*(1-sigmoid)
+		self.dinputs = np.multiply(dvalues, d_sigmoid)
 
 layer1 = Dense_Layer(4, 3)
 layer1.forward(inputs)
 
 activation1 = Activation_ReLU()
 activation1.forward(layer1.output)
-print("Layer1: ")
-print(layer1.output)
-print("")
 
-print("Activation_ReLU: ")
-print(activation1.output)
-print("")
+activation2 = Activation_Sigmoid()
+activation2.forward(layer1.output)
+print(f'Layer1:\n{layer1.output}')
+print(f'Activation_ReLU:\n{activation1.output}')
+print(f'Activation_Sigmoid:\n{activation2.output}')
+
+

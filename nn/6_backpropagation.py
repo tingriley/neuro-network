@@ -51,28 +51,19 @@ for i in range(1000):
     loss.forward(activation1.output, y_true)
    
     if(i%100==0):
-        print(f'[{i}] cost\n{loss.cost}')
+        print(f'[{i}] cost\n{loss.cost}\n')
 
     loss.backward()
     activation1.backward(loss.dinputs)
     layer1.backward(activation1.dinputs)
     layer1.weights -= layer1.dweights
 
-print("New synaptic weights after training: ")
-print(layer1.weights)
+print(f'New synaptic weights after training:\n{layer1.weights}\n')
 
-print("Considering new situation: [0,1,1]")
+
+print('Considering new situation:\n{[0,1,1]}\n')
 newZ = np.dot(np.array([0,1,1]), layer1.weights)
 activationOutput = 1/(1+np.exp(-newZ))
 print(activationOutput)
 
 
-
-
-'''class Activation_ReLU:
-	def forward(self, inputs):
-		self.inputs = inputs
-		self.output = np.maximum(0, self.inputs)
-	def forward(self, dvalues):
-		self.dinputs = dvalues.copy()
-		self.dinputs[self.inputs <= 0] = 0'''

@@ -33,6 +33,6 @@ def Plot(title, name):
 	plt.close()
 
 Plot('Activation Function: ReLU', 'ReLU')
-#Plot('Activation Function: Sigmoid', 'Sigmoid')
-#Plot('Activation Function: Softmax', 'Softmax')
+Plot('Activation Function: Sigmoid', 'Sigmoid')
+Plot('Activation Function: Softmax', 'Softmax')
 
